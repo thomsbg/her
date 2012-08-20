@@ -11,7 +11,7 @@ module Her
       #
       #   User.find(1) # Fetched via GET /utilisateurs/1
       def request_path # {{{
-        self.class.build_request_path(@data)
+        self.class.build_request_path(to_params)
       end # }}}
 
       module ClassMethods
@@ -64,7 +64,7 @@ module Her
           end
           path.gsub(/:([\w_]+)/) do
             # Look for :key or :_key, otherwise raise an exception
-            parameters[$1.to_sym] || parameters["_#{$1}".to_sym] || raise(Her::Errors::PathError.new("Missing :_#{$1} parameter to build the request path (#{path})."))
+            parameters.delete($1.to_sym) || parameters.delete("_#{$1}".to_sym) || raise(Her::Errors::PathError.new("Missing :_#{$1} parameter to build the request path (#{path})."))
           end
         end # }}}
       end
