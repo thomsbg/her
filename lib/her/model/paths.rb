@@ -1,6 +1,8 @@
 module Her
   module Model
     module Paths
+      extend ActiveSupport::Concern
+
       # Return a path based on the collection path and a resource data
       #
       # @example
@@ -62,6 +64,7 @@ module Her
             parameters = path || {}
             path = parameters.include?(:id) ? resource_path : collection_path
           end
+
           path.gsub(/:([\w_]+)/) do
             # Look for :key or :_key, otherwise raise an exception
             parameters.delete($1.to_sym) || parameters.delete("_#{$1}".to_sym) || raise(Her::Errors::PathError.new("Missing :_#{$1} parameter to build the request path (#{path})."))

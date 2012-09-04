@@ -2,6 +2,8 @@ module Her
   module Model
     # This module adds ORM-like capabilities to the model
     module ORM
+      extend ActiveSupport::Concern
+
       attr_accessor :data, :metadata, :errors
 
       # Initialize a new object with data received from an HTTP request
@@ -147,10 +149,11 @@ module Her
 
       private
 
-      def writer_method_defined?(key)
+      # @private
+      def writer_method_defined?(key) # {{{
         self.class.instance_methods.include?("#{key}=".to_sym) || # Ruby 1.9
           self.class.instance_methods.include?("#{key}=") # Ruby 1.8
-      end
+      end # }}}
 
       module ClassMethods
         # Initialize a collection of resources with raw data from an HTTP request
