@@ -25,7 +25,7 @@ module Her
             next if !data.include?(name) or data[name].nil?
             data[name] = case type
               when :has_many
-                Her::Model::ORM.initialize_collection(klass, :data => data[name])
+                klass.new_collection(:data => data[name])
               when :has_one, :belongs_to
                 klass.new(data[name])
               else

@@ -21,13 +21,6 @@ module Her
         @data.merge! self.class.parse_relationships(cleaned_data)
       end # }}}
 
-      # Initialize a collection of resources
-      # @private
-      def self.initialize_collection(klass, parsed_data={}) # {{{
-        collection_data = parsed_data[:data].map { |item_data| klass.new(item_data) }
-        Her::Collection.new(collection_data, parsed_data[:metadata], parsed_data[:errors])
-      end # }}}
-
       # Handles missing methods by routing them through @data
       # @private
       def method_missing(method, *args, &blk) # {{{
@@ -159,7 +152,8 @@ module Her
         #
         # @param [Array] parsed_data
         def new_collection(parsed_data) # {{{
-          Her::Model::ORM.initialize_collection(self, parsed_data)
+          collection_data = parsed_data[:data].map { |item_data| new(item_data) }
+          Her::Collection.new(collection_data, parsed_data[:metadata], parsed_data[:errors])
         end # }}}
 
         # Fetch specific resource(s) by their ID
