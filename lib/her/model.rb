@@ -18,7 +18,7 @@ module Her
   #   @user = User.new(:name => "Rémi")
   #   @user.save
   module Model
-    extend ActiveSupport::Concern
+    extend Her::Concern
 
     # Instance methods
     include Her::Model::ORM

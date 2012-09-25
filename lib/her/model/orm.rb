@@ -2,7 +2,7 @@ module Her
   module Model
     # This module adds ORM-like capabilities to the model
     module ORM
-      extend ActiveSupport::Concern
+      extend Her::Concern
 
       attr_accessor :data, :metadata, :errors
 

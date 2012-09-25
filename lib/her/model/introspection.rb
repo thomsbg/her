@@ -1,7 +1,7 @@
 module Her
   module Model
     module Introspection
-      extend ActiveSupport::Concern
+      extend Her::Concern
       # Inspect an element, returns it for introspection.
       #
       # @example

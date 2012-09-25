@@ -5,6 +5,7 @@ require "faraday"
 require "active_support"
 require "active_support/inflector"
 
+require "her/concern"
 require "her/model"
 require "her/api"
 require "her/middleware"
