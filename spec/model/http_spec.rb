@@ -262,4 +262,30 @@ describe Her::Model::HTTP do
       @user.id.should be_true
     end # }}}
   end
+
+  context "default_params" do
+    before do
+      spawn_model "Foo::User"
+    end
+
+    it "returns {} by default" do
+      Foo::User.default_params.should == {}
+    end
+
+    it "assigns a value when an argument is given" do
+      Foo::User.default_params(:foo => 'bar')
+      Foo::User.default_params.should == { :foo => 'bar' }
+    end
+
+    it "is added to the params sent to api.request" do
+      Foo::User.collection_path '/foo'
+      Foo::User.default_params(:foo => 'bar')
+      Her::API.any_instance.expects(:request).with({
+        :_path => '/foo/bar',
+        :_method => :get,
+        :foo => 'bar'
+      })
+      Foo::User.get_raw(:bar)
+    end
+  end
 end

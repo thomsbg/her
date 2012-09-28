@@ -17,7 +17,7 @@ module Her
       # Main request wrapper around Her::API. Used to make custom request to the API.
       # @private
       def request(params={}) # {{{
-        parsed_data = her_api.request(params)
+        parsed_data = her_api.request(default_params.merge(params))
         if block_given?
           yield parsed_data
         else
@@ -261,6 +261,15 @@ module Her
           end
         end
       end # }}}
+
+      # Set default parameters
+      def default_params(params = nil)
+        if params
+          @default_params = params
+        else
+          @default_params ||= {}
+        end
+      end
     end
   end
 end
