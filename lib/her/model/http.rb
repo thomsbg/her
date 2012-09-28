@@ -16,8 +16,8 @@ module Her
 
       # Main request wrapper around Her::API. Used to make custom request to the API.
       # @private
-      def request(attrs={}) # {{{
-        parsed_data = her_api.request(attrs)
+      def request(params={}) # {{{
+        parsed_data = her_api.request(params)
         if block_given?
           yield parsed_data
         else
@@ -34,9 +34,9 @@ module Her
       #
       #   @popular_users = User.get(:popular)
       #   # Fetched via GET "/users/popular"
-      def get(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        get_raw(path, attrs) do |parsed_data|
+      def get(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        get_raw(path, params) do |parsed_data|
           if parsed_data[:data].is_a?(Array)
             new_collection(parsed_data)
           else
@@ -46,31 +46,31 @@ module Her
       end # }}}
 
       # Make a GET request and return the parsed JSON response (not mapped to objects)
-      def get_raw(path, attrs={}, &block) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        request(attrs.merge(:_method => :get, :_path => path), &block)
+      def get_raw(path, params={}, &block) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        request(params.merge(:_method => :get, :_path => path), &block)
       end # }}}
 
       # Make a GET request and return a collection of resources
-      def get_collection(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        get_raw(path, attrs) do |parsed_data|
+      def get_collection(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        get_raw(path, params) do |parsed_data|
           new_collection(parsed_data)
         end
       end # }}}
 
       # Make a GET request and return a collection of resources
-      def get_resource(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        get_raw(path, attrs) do |parsed_data|
+      def get_resource(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        get_raw(path, params) do |parsed_data|
           new(parsed_data[:data].merge :_metadata => parsed_data[:data], :_errors => parsed_data[:errors])
         end
       end # }}}
 
       # Make a POST request and return either a collection or a resource
-      def post(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        post_raw(path, attrs) do |parsed_data|
+      def post(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        post_raw(path, params) do |parsed_data|
           if parsed_data[:data].is_a?(Array)
             new_collection(parsed_data)
           else
@@ -80,31 +80,31 @@ module Her
       end # }}}
 
       # Make a POST request and return the parsed JSON response (not mapped to objects)
-      def post_raw(path, attrs={}, &block) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        request(attrs.merge(:_method => :post, :_path => path), &block)
+      def post_raw(path, params={}, &block) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        request(params.merge(:_method => :post, :_path => path), &block)
       end # }}}
 
       # Make a POST request and return a collection of resources
-      def post_collection(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        post_raw(path, attrs) do |parsed_data|
+      def post_collection(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        post_raw(path, params) do |parsed_data|
           new_collection(parsed_data)
         end
       end # }}}
 
       # Make a POST request and return a collection of resources
-      def post_resource(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        post_raw(path, attrs) do |parsed_data|
+      def post_resource(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        post_raw(path, params) do |parsed_data|
           new(parsed_data[:data])
         end
       end # }}}
 
       # Make a PUT request and return either a collection or a resource
-      def put(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        put_raw(path, attrs) do |parsed_data|
+      def put(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        put_raw(path, params) do |parsed_data|
           if parsed_data[:data].is_a?(Array)
             new_collection(parsed_data)
           else
@@ -114,31 +114,31 @@ module Her
       end # }}}
 
       # Make a PUT request and return the parsed JSON response (not mapped to objects)
-      def put_raw(path, attrs={}, &block) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        request(attrs.merge(:_method => :put, :_path => path), &block)
+      def put_raw(path, params={}, &block) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        request(params.merge(:_method => :put, :_path => path), &block)
       end # }}}
 
       # Make a PUT request and return a collection of resources
-      def put_collection(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        put_raw(path, attrs) do |parsed_data|
+      def put_collection(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        put_raw(path, params) do |parsed_data|
           new_collection(parsed_data)
         end
       end # }}}
 
       # Make a PUT request and return a collection of resources
-      def put_resource(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        put_raw(path, attrs) do |parsed_data|
+      def put_resource(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        put_raw(path, params) do |parsed_data|
           new(parsed_data[:data].merge :_metadata => parsed_data[:data], :_errors => parsed_data[:errors])
         end
       end # }}}
 
       # Make a PATCH request and return either a collection or a resource
-      def patch(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        patch_raw(path, attrs) do |parsed_data|
+      def patch(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        patch_raw(path, params) do |parsed_data|
           if parsed_data[:data].is_a?(Array)
             new_collection(parsed_data)
           else
@@ -148,31 +148,31 @@ module Her
       end # }}}
 
       # Make a PATCH request and return the parsed JSON response (not mapped to objects)
-      def patch_raw(path, attrs={}, &block) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        request(attrs.merge(:_method => :patch, :_path => path), &block)
+      def patch_raw(path, params={}, &block) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        request(params.merge(:_method => :patch, :_path => path), &block)
       end # }}}
 
       # Make a PATCH request and return a collection of resources
-      def patch_collection(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        patch_raw(path, attrs) do |parsed_data|
+      def patch_collection(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        patch_raw(path, params) do |parsed_data|
           new_collection(parsed_data)
         end
       end # }}}
 
       # Make a PATCH request and return a collection of resources
-      def patch_resource(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        patch_raw(path, attrs) do |parsed_data|
+      def patch_resource(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        patch_raw(path, params) do |parsed_data|
           new(parsed_data[:data].merge :_metadata => parsed_data[:data], :_errors => parsed_data[:errors])
         end
       end # }}}
 
       # Make a DELETE request and return either a collection or a resource
-      def delete(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        delete_raw(path, attrs) do |parsed_data|
+      def delete(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        delete_raw(path, params) do |parsed_data|
           if parsed_data[:data].is_a?(Array)
             new_collection(parsed_data)
           else
@@ -182,23 +182,23 @@ module Her
       end # }}}
 
       # Make a DELETE request and return the parsed JSON response (not mapped to objects)
-      def delete_raw(path, attrs={}, &block) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        request(attrs.merge(:_method => :delete, :_path => path), &block)
+      def delete_raw(path, params={}, &block) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        request(params.merge(:_method => :delete, :_path => path), &block)
       end # }}}
 
       # Make a DELETE request and return a collection of resources
-      def delete_collection(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        delete_raw(path, attrs) do |parsed_data|
+      def delete_collection(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        delete_raw(path, params) do |parsed_data|
           new_collection(parsed_data)
         end
       end # }}}
 
       # Make a DELETE request and return a collection of resources
-      def delete_resource(path, attrs={}) # {{{
-        path = "#{build_request_path(attrs)}/#{path}" if path.is_a?(Symbol)
-        delete_raw(path, attrs) do |parsed_data|
+      def delete_resource(path, params={}) # {{{
+        path = "#{build_request_path(params)}/#{path}" if path.is_a?(Symbol)
+        delete_raw(path, params) do |parsed_data|
           new(parsed_data[:data].merge :_metadata => parsed_data[:data], :_errors => parsed_data[:errors])
         end
       end # }}}
@@ -216,8 +216,8 @@ module Her
       def custom_get(*paths) # {{{
         metaclass = (class << self; self; end)
         paths.each do |path|
-          metaclass.send(:define_method, path.to_sym) do |*attrs|
-            get(path, attrs.first || Hash.new)
+          metaclass.send(:define_method, path.to_sym) do |*args|
+            get(path, args.first || Hash.new)
           end
         end
       end # }}}
@@ -226,8 +226,8 @@ module Her
       def custom_post(*paths) # {{{
         metaclass = (class << self; self; end)
         paths.each do |path|
-          metaclass.send(:define_method, path.to_sym) do |*attrs|
-            post(path, attrs.first || Hash.new)
+          metaclass.send(:define_method, path.to_sym) do |*args|
+            post(path, args.first || Hash.new)
           end
         end
       end # }}}
@@ -236,8 +236,8 @@ module Her
       def custom_put(*paths) # {{{
         metaclass = (class << self; self; end)
         paths.each do |path|
-          metaclass.send(:define_method, path.to_sym) do |*attrs|
-            put(path, attrs.first || Hash.new)
+          metaclass.send(:define_method, path.to_sym) do |*args|
+            put(path, args.first || Hash.new)
           end
         end
       end # }}}
@@ -246,8 +246,8 @@ module Her
       def custom_patch(*paths) # {{{
         metaclass = (class << self; self; end)
         paths.each do |path|
-          metaclass.send(:define_method, path.to_sym) do |*attrs|
-            patch(path, attrs.first || Hash.new)
+          metaclass.send(:define_method, path.to_sym) do |*args|
+            patch(path, args.first || Hash.new)
           end
         end
       end # }}}
@@ -256,8 +256,8 @@ module Her
       def custom_delete(*paths) # {{{
         metaclass = (class << self; self; end)
         paths.each do |path|
-          metaclass.send(:define_method, path.to_sym) do |*attrs|
-            delete(path, attrs.first || Hash.new)
+          metaclass.send(:define_method, path.to_sym) do |*args|
+            delete(path, args.first || Hash.new)
           end
         end
       end # }}}
